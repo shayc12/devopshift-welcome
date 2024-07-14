@@ -9,16 +9,9 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git branch:'jenkins-workshop', url: 'https://github.com/shayc12/devopshift-welcome.git'
-            }
-        }
-
         stage('Build') {
             steps {
                 script {
-                    dir('app/bookinfo/src/productpage'){
                     sh '''
                     docker build --target build --tag ${IMAGE_NAME}:${VERSION}-build .
                     '''
@@ -26,12 +19,12 @@ pipeline {
                 }
 
             }
-        }
+        
 
         stage('Test') {
             steps {
                 script {
-                    dir('app/bookinfo/src/productpage'){
+                    
                     sh '''
                     docker build --target test --tag ${IMAGE_NAME}:${VERSION}-test .
                     docker run --rm ${IMAGE_NAME}:${VERSION}-test
@@ -39,16 +32,16 @@ pipeline {
                 }
             }
         }
-        }
+        
 
         stage('Run') {
             steps {
                 script {
-                    dir('app/bookinfo/src/productpage'){
+
                     sh '''
                     docker build --target run --tag ${IMAGE_NAME}:${VERSION} .
                     '''
-                }
+                
             }
         }
         }
