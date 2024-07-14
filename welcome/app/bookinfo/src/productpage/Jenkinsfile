@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch:'jenkins-workshop' url: 'https://github.com/shayc12/devopshift-welcome.git'
+                git branch:'jenkins-workshop', url: 'https://github.com/shayc12/devopshift-welcome.git'
             }
         }
 
