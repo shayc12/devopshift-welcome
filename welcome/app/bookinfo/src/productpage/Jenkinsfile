@@ -18,37 +18,40 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+                    dir('app/bookinfo/src/productpage'){
                     sh '''
-                    cd app/bookinfo/src/productpage
                     docker build --target build --tag ${IMAGE_NAME}:${VERSION}-build .
                     '''
                 }
+                }
+
             }
         }
 
         stage('Test') {
             steps {
                 script {
+                    dir('app/bookinfo/src/productpage'){
                     sh '''
-                    cd app/bookinfo/src/productpage
                     docker build --target test --tag ${IMAGE_NAME}:${VERSION}-test .
                     docker run --rm ${IMAGE_NAME}:${VERSION}-test
                     '''
                 }
             }
         }
+        }
 
         stage('Run') {
             steps {
                 script {
+                    dir('app/bookinfo/src/productpage'){
                     sh '''
-                    cd app/bookinfo/src/productpage
                     docker build --target run --tag ${IMAGE_NAME}:${VERSION} .
                     '''
                 }
             }
         }
-
+        }
         stage('Push') {
             steps {
                 script {
