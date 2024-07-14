@@ -19,7 +19,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    docker build --target build --tag ${IMAGE_NAME}:${VERSION}-build -f welcome/app/bookinfo/src/productpage/Dockerfile
+                    cd app/bookinfo/src/productpage
+                    docker build --target build --tag ${IMAGE_NAME}:${VERSION}-build .
                     '''
                 }
             }
@@ -29,7 +30,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    docker build --target test --tag ${IMAGE_NAME}:${VERSION}-test -f welcome/app/bookinfo/src/productpage/Dockerfile
+                    cd app/bookinfo/src/productpage
+                    docker build --target test --tag ${IMAGE_NAME}:${VERSION}-test .
                     docker run --rm ${IMAGE_NAME}:${VERSION}-test
                     '''
                 }
@@ -40,7 +42,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    docker build --target run --tag ${IMAGE_NAME}:${VERSION} -f welcome/app/bookinfo/src/productpage/Dockerfile
+                    cd app/bookinfo/src/productpage
+                    docker build --target run --tag ${IMAGE_NAME}:${VERSION} .
                     '''
                 }
             }

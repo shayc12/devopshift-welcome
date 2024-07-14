@@ -1,9 +1,9 @@
-FROM python:3.12.1-slim AS build
+FROM python:3.12.1-slim as build
 WORKDIR /
-COPY requirements.txt ./
+COPY ./requirements.txt .
 RUN pip3 install -vvv --require-hashes --no-cache-dir -r requirements.txt
 
-COPY test-requirements.txt ./
+COPY ./test-requirements.txt .
 RUN pip3 install --no-cache-dir --require-hashes -r test-requirements.txt
 
 COPY productpage.py /opt/microservices/
@@ -11,12 +11,12 @@ COPY templates /opt/microservices/templates
 COPY static /opt/microservices/static
 COPY requirements.txt /opt/microservices/
 
-FROM build AS test
+FROM build as test
 COPY tests/unit/* /opt/microservices/
 WORKDIR /opt/microservices
 RUN python -m unittest discover
 
-FROM python:3.12.1-slim AS run
+FROM python:3.12.1-slim as run
 WORKDIR /opt/microservices
 COPY --from=build /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
 COPY --from=build /opt/microservices /opt/microservices
