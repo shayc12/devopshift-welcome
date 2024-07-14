@@ -9,7 +9,7 @@ RUN pip3 install --no-cache-dir --require-hashes -r test-requirements.txt
 COPY productpage.py /opt/microservices/
 COPY templates /opt/microservices/templates
 COPY static /opt/microservices/static
-COPY requirements.txt /opt/microservices/
+COPY ./requirements.txt /opt/microservices/
 
 FROM build as test
 COPY tests/unit/* /opt/microservices/
