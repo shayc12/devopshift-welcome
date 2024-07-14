@@ -1,8 +1,9 @@
+
 pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'jenk-workshop-py'
+        IMAGE_NAME = 'jenk-workshop-rate'
         VERSION = "v${env.BUILD_NUMBER}"
         REPO = 'shayc12'
         CREDENTIALS_ID = 'docker-credentials'
@@ -20,6 +21,14 @@ pipeline {
 
             }
 
+        stage('Lint/Test') {
+            steps {
+                script {
+                    sh 'docker build --target lint-test --tag ${IMAGE_NAME}:${VERSION}-lint-test -f welcome/app/bookinfo/src/productpage/Dockerfile welcome/app/bookinfo/src/productpage/'
+                    sh 'docker run --rm ${IMAGE_NAME}:${VERSION}-lint-test'
+                }
+            }
+        }
         stage('Test') {
             steps {
                 script {

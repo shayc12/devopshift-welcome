@@ -1,11 +1,13 @@
+
 pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'jenk-workshop-py'
+        IMAGE_NAME = 'jenk-workshop-snyk'
         VERSION = "v${env.BUILD_NUMBER}"
         REPO = 'shayc12'
         CREDENTIALS_ID = 'docker-credentials'
+        SNYK_TOKEN = 'CHANGETHETOKEN' 
     }
 
     stages {
@@ -20,6 +22,14 @@ pipeline {
 
             }
 
+        stage('Security') {
+            steps {
+                script {
+                    sh 'docker build --target security --build-arg SNYK_TOKEN=${SNYK_TOKEN} --tag ${IMAGE_NAME}:${VERSION}-security -f welcome/app/bookinfo/src/productpage/Dockerfile welcome/app/bookinfo/src/productpage/'
+                    sh 'docker run --rm ${IMAGE_NAME}:${VERSION}-security'
+                }
+            }
+        }
         stage('Test') {
             steps {
                 script {
