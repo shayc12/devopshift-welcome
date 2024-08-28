@@ -21,10 +21,10 @@ spec:
     hooks:
       - type: PreSync
         command: ["/bin/sh", "-c"]
-        args: ["echo Shay PreSync hook executed"]
+        args: ["echo PreSync hook executed"]
       - type: PostSync
         command: ["/bin/sh", "-c"]
-        args: ["echo Shay PostSync hook executed"]
+        args: ["echo PostSync hook executed"]
 
 {{- end }}
 
