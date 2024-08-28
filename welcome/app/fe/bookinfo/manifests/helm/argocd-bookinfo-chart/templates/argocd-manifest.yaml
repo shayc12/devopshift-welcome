@@ -18,5 +18,13 @@ spec:
     automated:
       prune: {{ .Values.argoApplication.prune }}
       selfHeal: {{ .Values.argoApplication.selfHeal }}
+    hooks:
+      - type: PreSync
+        command: ["/bin/sh", "-c"]
+        args: ["echo PreSync hook executed"]
+      - type: PostSync
+        command: ["/bin/sh", "-c"]
+        args: ["echo Post hook executed"]
+
 {{- end }}
 
