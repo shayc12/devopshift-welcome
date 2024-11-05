@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bookinfo-application
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/shayc12/devopshift-welcome.git'
+    path: ./welcome/app/fe/bookinfo/manifests/manual
+    targetRevision: argocd-workshop
+    directory:
+      recurse: true
+      jsonnet: {}
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
